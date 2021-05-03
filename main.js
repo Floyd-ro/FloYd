@@ -1,41 +1,47 @@
-
 song = "";
 leftWristX = "";
-leftWristY= "";
+leftWristY = "";
 rightWristX = "";
 rightWristY = "";
 
 function preload()
 {
-    song = loadSound("music.mp3")
-    song = loadSound("music2.mp3")
+    song = loadSound("music.mp3");
 }
 
-function setup()
-{
+function setup() {
     canvas = createCanvas(600, 500);
     canvas.center();
 
     video = createCapture(VIDEO);
     video.hide();
-    
-    poseNet = m15.poseNet(video, modelLoaded);
+
+    poseNet = ml5.poseNet(video, modelLoaded);
     poseNet.on('poses', gotPoses);
 }
 
 function modelLoaded()
 {
-    console.log('Posenet Is Intialized !');
+    console.log('PoseNet Is Intialized');
 }
 
-
-function draw(){
+function draw() {
     image(video, 0, 0, 600, 500)
+
+    fill(255,0,0);
+    stroke(0,0,255);
+    circle(leftWristX,leftWristY,20);
+    a = Number(leftWristY/500);
+    b = Math.floor(a);
+    song.setVolume(b);
+    document.getElementById("volume").innerHTML = "volume = "+b;
 }
 
 function play()
 {
-   song.play();
+    song.play();
+    song.setVolume(1);
+    song.rate(1);
 }
 
 function gotPoses(results)
